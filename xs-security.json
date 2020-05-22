@@ -1,0 +1,30 @@
+{  
+	"xsappname":"inbox_project",
+	"description":"inbox_project",
+	"tenant-mode":"dedicated",
+	"foreign-scope-references":[  
+		"uaa.user"
+	],
+	"scopes":[  
+
+	],
+	"attributes":[  
+		{  
+			"name":"sfsf_id",
+			"description":"user ID",
+			"valueType":"s"
+		}
+	],
+	"role-templates":[  
+		{  
+			"name":"inbox_user",
+			"description":"Access inbox service",
+			"scope-references":[  
+
+			],
+			"attribute-references":[  
+				"sfsf_id"
+			]
+		}
+	]
+} 

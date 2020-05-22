@@ -1,0 +1,62 @@
+ID: inbox_project
+_schema-version: '2.1'
+parameters:
+  deploy_mode: html5-repo
+version: 0.0.1
+modules:
+  - name: inbox-project-approuter
+    type: approuter.nodejs
+    path: inbox-project-approuter
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: inbox_project_html5_repo_runtime
+      - name: portal_resources_inbox_project
+      - name: uaa_inbox_project
+      - name: one-inbox-test
+  - name: inbox_flp_model
+    type: com.sap.portal.content
+    path: inbox_flp_model
+    parameters:
+      stack: cflinuxfs3
+      memory: 128M
+      buildpack: 'https://github.com/cloudfoundry/nodejs-buildpack/releases/download/v1.6.39/nodejs-buildpack-cflinuxfs3-v1.6.39.zip'
+    requires:
+      - name: portal_resources_inbox_project
+      - name: uaa_inbox_project
+      - name: one-inbox-test
+
+  
+
+resources:
+  - name: inbox_project_html5_repo_runtime
+    parameters:
+      service-plan: app-runtime
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: inbox_project_html5_repo_host
+    parameters:
+      service-plan: app-host
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: portal_resources_inbox_project
+    parameters:
+      service-plan: standard
+      service: portal
+    type: org.cloudfoundry.managed-service
+  - name: one-inbox-test
+    type: org.cloudfoundry.existing-service
+  - name: uaa_inbox_project
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+    type: org.cloudfoundry.managed-service
+
+  - name: dest_inbox_project
+    parameters:
+       service-plan: lite
+       service: destination
+    type: org.cloudfoundry.managed-service
+
